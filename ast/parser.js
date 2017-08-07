@@ -10,9 +10,13 @@ const Parser = class
 		this.nodes = {};
 		this.options = Object.assign(
 		{
-			
+			spaceAroundUnaryOperators: false,
+			spaceAroundBinaryOperators: true,
+			spaceBetweenTagAndTemplateLiteral: false,
 		},
 		options);
+		
+		this.currentIndentation = 0;
 		
 		const proxy = new Proxy(this,
 		{
@@ -71,7 +75,30 @@ const Parser = class
 	
 	output(...parts)
 	{
-		return parts.join('');
+		let output = '';
+		for (const part of parts)
+		{
+			if (typeof part === 'function')
+			{
+				output += part();
+			}
+			else if (typeof part === 'string')
+			{
+				output += part;
+			}
+		}
+		
+		return output;
+	}
+	
+	indent()
+	{
+		this.currentIndentation++;
+	}
+	
+	outdent()
+	{
+		this.currentIndentation--;
 	}
 	
 	get indentation()
@@ -81,12 +108,25 @@ const Parser = class
 	
 	get newLine()
 	{
-		return '\n' + this.indentation;
+		let currentIndentation = '';
+		for (let i = 0; i < this.currentIndentation; i++)
+		{
+			currentIndentation += this.indentation;
+		}
+		
+		return '\n' + currentIndentation;
 	}
 	
 	get indentedNewLine()
 	{
-		return this.newLine + '\t';
+		this.indent();
+		return this.newLine;
+	}
+	
+	get outdentedNewLine()
+	{
+		this.outdent();
+		return this.newLine;
 	}
 }
 

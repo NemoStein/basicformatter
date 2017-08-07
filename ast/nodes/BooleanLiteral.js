@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return node.value;
+	return String(node.value);
 };
