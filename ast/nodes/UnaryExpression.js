@@ -1,15 +1,11 @@
 module.exports = parser => node =>
-{
-	let output = parser.parse(node.argument);
+{	
+	let operator = node.operator;
 	
-	if (node.prefix)
+	if (parser.options.spaceAroundUnaryOperators || node.operator === 'typeof')
 	{
-		output = node.operator + output;
-	}
-	else
-	{
-		output += node.operator;
+		operator = `${node.operator} `;
 	}
 	
-	return output;
+	return parser.output(operator, parser.parse(node.argument));
 };

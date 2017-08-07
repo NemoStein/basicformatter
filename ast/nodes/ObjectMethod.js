@@ -1,6 +1,5 @@
 module.exports = parser => node =>
 {
-	console.log(node);
 	let output = '';
 	
 	if (node.kind === 'method')

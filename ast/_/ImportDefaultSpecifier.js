@@ -1,4 +1,4 @@
-module.exports = (parser, node) =>
+module.exports = parser => node =>
 {
 	return '';
 };
