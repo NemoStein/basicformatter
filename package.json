@@ -1,0 +1,17 @@
+{
+	"name": "formatting-test",
+	"version": "0.0.1",
+	"description": "A JS AST Printer",
+	
+	"author": "NemoStein <contato@nemostein.com.br>",
+	"license": "ISC",
+	
+	"main": "index.js",
+	
+	"dependencies":
+	{
+		"babylon": "^6.17.4"
+	},
+	
+	"devDependencies": {}
+}
