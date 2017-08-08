@@ -12,7 +12,12 @@ const Parser = class
 		{
 			spaceAroundUnaryOperators: false,
 			spaceAroundBinaryOperators: true,
+			spaceAroundAssignmentOperators: true,
 			spaceBetweenTagAndTemplateLiteral: false,
+			spaceBeforeComma: false,
+			spaceAfterComma: true,
+			
+			forceInlineArrays: false,
 		},
 		options);
 		
@@ -78,13 +83,21 @@ const Parser = class
 		let output = '';
 		for (const part of parts)
 		{
-			if (typeof part === 'function')
+			if (part)
 			{
-				output += part();
-			}
-			else if (typeof part === 'string')
-			{
-				output += part;
+				if (typeof part === 'function')
+				{
+					output += this.output(part.apply(this));
+				}
+				else if (typeof part === 'object' && part.type)
+				{
+					output += '\x1b[36m' + part.type + '(' + '\x1b[0m' + this.parse(part) + '\x1b[36m' + ')' + '\x1b[0m';
+					//output += this.parse(part);
+				}
+				else if (typeof part === 'string')
+				{
+					output += part;
+				}
 			}
 		}
 		
@@ -101,32 +114,32 @@ const Parser = class
 		this.currentIndentation--;
 	}
 	
-	get indentation()
+	indentedNewLine()
+	{
+		this.indent();
+		return this.newLine();
+	}
+	
+	outdentedNewLine()
+	{
+		this.outdent();
+		return this.newLine();
+	}
+	
+	indentation()
 	{
 		return '\t';
 	}
 	
-	get newLine()
+	newLine()
 	{
 		let currentIndentation = '';
 		for (let i = 0; i < this.currentIndentation; i++)
 		{
-			currentIndentation += this.indentation;
+			currentIndentation += this.indentation();
 		}
 		
 		return '\n' + currentIndentation;
-	}
-	
-	get indentedNewLine()
-	{
-		this.indent();
-		return this.newLine;
-	}
-	
-	get outdentedNewLine()
-	{
-		this.outdent();
-		return this.newLine;
 	}
 }
 

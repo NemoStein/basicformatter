@@ -1,1 +1,5 @@
-tag `${a} \u0012 hello ${doStuff()}th world ${x}`;
+$.get('js/config.json', function(data)
+{
+	menudata = data;
+	init()
+});

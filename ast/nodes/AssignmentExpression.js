@@ -1,4 +1,6 @@
 module.exports = parser => node =>
 {
-	return parser.parse(node.left) + '=' + parser.parse(node.right);
+	const spaceAssigment = parser.options.spaceAroundAssignmentOperators && ' ';
+	
+	return parser.output(node.left, spaceAssigment, node.operator, spaceAssigment, node.right, ';', parser.newLine);
 };

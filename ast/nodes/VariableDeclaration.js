@@ -1,22 +1,22 @@
 module.exports = parser => (node, open) =>
 {
-	let output = '';
+	const spaceAssigment = parser.options.spaceAroundAssignmentOperators && ' ';
+	
+	let parts = [];
 	for (const child of node.declarations)
 	{
-		let declaration = node.kind + ' ' + parser.parse(child.id);
+		parts.push(node.kind, ' ', child.id);
 		
 		if (child.init)
 		{
-			declaration += ' = ' + parser.parse(child.init);
+			parts.push(spaceAssigment, '=', spaceAssigment, child.init);
 		}
-		
-		output += declaration;
 		
 		if (!open)
 		{
-			output += ';';
+			parts.push(';', parser.newLine);
 		}
 	}
 	
-	return output;
+	return parser.output(...parts);
 };
