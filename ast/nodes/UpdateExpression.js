@@ -2,10 +2,10 @@ module.exports = parser => node =>
 {
 	if (node.prefix)
 	{
-		return [node.operator, parser.options.spaceAroundUnaryOperators && ' ', node.argument];
+		return [node.operator, parser.spaceAroundUnaryOperators && ' ', node.argument];
 	}
 	else
 	{
-		return [node.argument, parser.options.spaceAroundUnaryOperators && ' ', node.operator];
+		return [node.argument, parser.spaceAroundUnaryOperators && ' ', node.operator];
 	}
 };

@@ -3,7 +3,7 @@ module.exports = parser => node =>
 	return [
 		'{',
 			parser.indentedNewLine,
-			...node.body,
+			parser.join(node.body, parser.newLine),
 			parser.outdentedNewLine,
 		'}'
 	];

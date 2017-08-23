@@ -1,6 +1,6 @@
 module.exports = parser => (node, open) =>
 {
-	const spaceAssigment = parser.options.spaceAroundAssignmentOperators && ' ';
+	const spaceAssigment = parser.spaceAroundAssignmentOperators && ' ';
 	
 	const parts = [];
 	for (const child of node.declarations)
@@ -14,7 +14,7 @@ module.exports = parser => (node, open) =>
 		
 		if (!open)
 		{
-			parts.push(';', parser.newLine);
+			parts.push(';');
 		}
 	}
 	
