@@ -1,23 +1,23 @@
 module.exports = parser => node =>
 {
-	let output = 'class';
+	const output = ['class'];
 	
 	if (node.id)
 	{
-		output += parser.output(' ', parser.parse(node.id));
+		output.push(' ', node.id);
 	}
 	
 	if (node.superClass)
 	{
-		output += parser.output(' extends ', parser.parse(node.superClass));
+		output.push(' extends ', node.superClass);
 	}
 	
-	output += parser.output
+	output.push
 	(
 		parser.newLine,
 		'{',
 			parser.indentedNewLine,
-			parser.parse(node.body),
+			node.body,
 			parser.outdentedNewLine,
 		'}'
 	);

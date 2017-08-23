@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return parser.output(node.expression);
+	return [node.expression, ';', parser.newLine];
 };

@@ -1,22 +1,22 @@
 module.exports = parser => node =>
 {
-	let output = [];
-	
-	//expressions
+	const output = ['`'];
 	
 	for (let i = 0; i < node.quasis.length; i++)
 	{
-		const quasi = node.quasis[i];
+		const element = node.quasis[i];
 		
-		output.push(quasi.value.raw);
+		output.push(element.value.raw);
 		
-		if (quasi.tail)
+		if (element.tail)
 		{
 			break;
 		}
 		
-		output.push('${', parser.parse(node.expressions[i]), '}');
+		output.push('${', node.expressions[i], '}');
 	}
 	
-	return parser.output('`', ...output, '`');
+	output.push('`');
+	
+	return output;
 };

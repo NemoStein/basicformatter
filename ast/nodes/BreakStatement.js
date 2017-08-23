@@ -1,13 +1,11 @@
 module.exports = parser => node =>
 {
-	let output = 'break';
+	const output = ['break'];
 	
 	if (node.label)
 	{
-		output += ' ' + parser.parse(node.label);
+		output.push(' ', node.label);
 	}
 	
-	output += ';';
-
 	return output;
 };

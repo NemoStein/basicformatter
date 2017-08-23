@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return 'throw ' + parser.parse(node.argument);
+	return ['throw ', node.argument];
 };

@@ -1,19 +1,18 @@
 module.exports = parser => node =>
 {
-	const spaceBefore = parser.options.spaceBeforeComma ? ' ' : '';
-	const spaceAfter = parser.options.spaceAfterComma ? ' ' : '';
-	const inline = parser.options.forceInlineArrays;
+	const spaceBefore = parser.spaceBeforeComma ? ' ' : '';
+	const spaceAfter = parser.spaceAfterComma ? ' ' : '';
+	const inline = parser.forceInlineArrays;
 	
-	return parser.output
-	(
+	return [
 		!inline && parser.newLine,
 		'[',
 			!inline && parser.indentedNewLine,
 			() =>
 			{
-				if (parser.options.forceInlineArrays)
+				if (parser.forceInlineArrays)
 				{
-					return node.elements.map(item => parser.parse(item)).join(spaceBefore + ',' + spaceAfter);
+					return parser.join(node.elements, [spaceBefore, ',', spaceAfter]);
 				}
 				
 				const parts = [];
@@ -23,9 +22,9 @@ module.exports = parser => node =>
 				}
 				parts.pop();
 				
-				return parser.output(...parts);
+				return parts;
 			},
 			!inline && parser.outdentedNewLine,
 		']'
-	);
+	];
 };

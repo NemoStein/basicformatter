@@ -1,9 +1,8 @@
 module.exports = parser => node =>
 {
-	return parser.output
-	(
+	return [
 		node.async && 'async ', 'function', node.generator && '*', node.id && ' ', node.id,
-		'(', node.params.map(item => parser.parse(item)).join(', '), ')', parser.newLine,
+		'(', parser.join(node.params, ', '), ')', parser.newLine,
 		node.body
-	);
+	];
 };

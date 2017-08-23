@@ -1,17 +1,23 @@
 module.exports = parser => node =>
 {
-	let output = '';
+	const output = [];
 	
 	if (node.test)
 	{
-		output += 'case ' + parser.parse(node.test) + ':';
+		output.push('case ', node.test, ':');
 	}
 	else
 	{
-		output += 'default:';
+		output.push('default:');
 	}
 	
-	output += '{' + node.consequent.map(item => parser.parse(item)).join('') + '}';
+	output.push
+	(
+		parser.newLine,
+		'{',
+			...node.consequent,
+		'}'
+	);
 	
 	return output;
 };

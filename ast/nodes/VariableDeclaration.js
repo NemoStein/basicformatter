@@ -2,7 +2,7 @@ module.exports = parser => (node, open) =>
 {
 	const spaceAssigment = parser.options.spaceAroundAssignmentOperators && ' ';
 	
-	let parts = [];
+	const parts = [];
 	for (const child of node.declarations)
 	{
 		parts.push(node.kind, ' ', child.id);
@@ -18,5 +18,5 @@ module.exports = parser => (node, open) =>
 		}
 	}
 	
-	return parser.output(...parts);
+	return parts;
 };
