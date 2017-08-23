@@ -5,8 +5,10 @@ const babylon = require('babylon');
 const nodes = {};
 const Parser = class
 {
-	constructor(options)
+	constructor(options, debug)
 	{
+		this.debug = debug;
+		
 		this.nodes = {};
 		this.options = Object.assign(
 		{
@@ -30,6 +32,10 @@ const Parser = class
 				if (property in target)
 				{
 					return target[property];
+				}
+				else if (property in target.options)
+				{
+					return target.options[property];
 				}
 				
 				return '';
@@ -67,7 +73,7 @@ const Parser = class
 				return this.getSource(node);
 			}
 			
-			return typeParser(node, ...params);
+			return this.output(typeParser(node, ...params));
 		}
 		
 		return '';
@@ -89,17 +95,51 @@ const Parser = class
 				{
 					output += this.output(part.apply(this));
 				}
+				else if (Array.isArray(part))
+				{
+					for (const i of part)
+					{
+						output += this.output(i);
+					}
+				}
 				else if (typeof part === 'object' && part.type)
 				{
-					output += '\x1b[36m' + part.type + '(' + '\x1b[0m' + this.parse(part) + '\x1b[36m' + ')' + '\x1b[0m';
-					//output += this.parse(part);
+					if (this.debug)
+					{
+						output += '\x1b[36m' + part.type + '(' + '\x1b[0m' + this.parse(part) + '\x1b[36m' + ')' + '\x1b[0m';
+					}
+					else
+					{
+						output += this.parse(part);
+					}
 				}
 				else if (typeof part === 'string')
 				{
-					output += part;
+					if (this.debug)
+					{
+						output += '\x1b[35m' + part + '\x1b[0m';
+					}
+					else
+					{
+						output += part;
+					}
 				}
 			}
 		}
+		
+		return output;
+	}
+	
+	join(elements, glue)
+	{
+		const output = [];
+		
+		for (const element of elements)
+		{
+			output.push(element, glue);
+		}
+		
+		output.pop();
 		
 		return output;
 	}

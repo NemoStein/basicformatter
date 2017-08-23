@@ -1,18 +1,10 @@
 module.exports = parser => node =>
 {
-	let output = parser.output
-	(
-		'if (', node.test, ')', parser.newLine,
-		'{',
-			parser.indentedNewLine,
-			node.consequent,
-			parser.outdentedNewLine,
-		'}'
-	);
+	let output = ['if (', node.test, ')', parser.newLine, node.consequent];
 
 	if (node.alternate)
 	{
-		output += parser.output
+		output.push
 		(
 			parser.newLine,
 			'else', parser.newLine,

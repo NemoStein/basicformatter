@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return parser.output('yield', node.delegate && '*', ' ', parser.parse(node.argument));
+	return ['yield', node.delegate && '*', ' ', node.argument];
 };

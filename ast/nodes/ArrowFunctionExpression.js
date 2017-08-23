@@ -1,17 +1,25 @@
 module.exports = parser => node =>
 {
-	let output = '';
+	const output = [];
 	
-	if (node.params.length != 1)
+	if (node.params.length === 1)
 	{
-		output += '(' + node.params.map(item => parser.parse(item)).join(', ') + ')';
+		output.push(node.params[0]);
 	}
 	else
 	{
-		output += parser.parse(node.params[0]);
+		output.push('(', parser.join(node.params, ', '), ')');
 	}
 	
-	output += '=>{' + parser.parse(node.body) + '}';
+	output.push
+	(
+		'=>', parser.newLine,
+		'{',
+			parser.indentedNewLine,
+			node.body,
+			parser.outdentedNewLine,
+		'}'
+	);
 	
 	return output;
 };

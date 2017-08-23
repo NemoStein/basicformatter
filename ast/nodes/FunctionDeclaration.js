@@ -1,13 +1,12 @@
 module.exports = parser => node =>
 {
-	return parser.output
-	(
-		node.async && 'async ', 'function', node.generator && '*', node.id && ' ' + parser.parse(node.id),
-		'(', node.params.map(item => parser.parse(item)).join(', '), ')', parser.newLine,
+	return [
+		node.async && 'async ', 'function', node.generator && '*', node.id && ' ' + node.id,
+		'(', parser.join(node.params, ', '), ')', parser.newLine,
 		'{',
 			parser.indentedNewLine,
-			parser.parse(node.body),
+			node.body,
 			parser.outdentedNewLine,
 		'}'
-	);
+	];
 };

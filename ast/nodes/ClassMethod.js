@@ -1,15 +1,22 @@
 module.exports = parser => node =>
 {
-	return parser.output
-	(
-		node.async && 'async ', node.generator && '* ',
-		(node.kind === 'get' || node.kind === 'set') && node.kind + ' ',
-		node.computed && '[', parser.parse(node.key), node.computed && ']', 
-		'(', node.params.map(item => parser.parse(item)).join(', '), ')', parser.newLine,
-		'{',
-			parser.indentedNewLine,
-			parser.parse(node.body),
-			parser.outdentedNewLine,
-		'}'
-	);
+	const output = [node.async && 'async ', node.generator && '* '];
+	
+	if (node.kind === 'get' || node.kind === 'set')
+	{
+		output.push(node.kind, ' ');
+	}
+	
+	if (node.computed)
+	{
+		output.push('[', node.key, ']');	
+	}
+	else
+	{
+		output.push(node.key);
+	}
+	
+	output.push('(', parser.join(node.params, ', '), ')', parser.newLine, node.body);
+	
+	return output;
 };

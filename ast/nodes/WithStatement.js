@@ -1,4 +1,11 @@
 module.exports = parser => node =>
 {
-	return 'with(' + parser.parse(node.object) + '){' + parser.parse(node.body) + '}';
+	return [
+		'with(', node.object, ')', parser.newLine,
+		'{',
+			parser.indentedNewLine,
+			node.body,
+			parser.outdentedNewLine,
+		'}'
+	];
 };

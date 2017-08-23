@@ -1,15 +1,31 @@
 module.exports = parser => node =>
 {
-	let output = 'try {' + parser.parse(node.block) + '}';
+	const output =
+	[
+		'try', parser.newLine,
+		'{',
+			parser.indentedNewLine,
+			node.block,
+			parser.outdentedNewLine,
+		'}'
+	];
 	
 	if (node.handler)
 	{
-		output += parser.parse(node.handler);
+		output.push(node.handler);
 	}
 	
 	if (node.finalizer)
 	{
-		output += 'finally {' + parser.parse(node.finalizer) + '}';
+		output.push
+		(
+			'finally', parser.newLine,
+			'{',
+				parser.indentedNewLine,
+				node.finalizer,
+				parser.outdentedNewLine,
+			'}'
+		);
 	}
 	
 	return output;

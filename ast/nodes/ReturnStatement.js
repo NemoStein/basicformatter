@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return parser.output('return', node.argument && ' ' + parser.parse(node.argument), ';');
+	return ['return', node.argument && ' ', node.argument, ';'];
 };

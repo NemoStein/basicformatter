@@ -2,8 +2,8 @@ module.exports = parser => node =>
 {
 	if (node.shorthand)
 	{
-		return parser.output(node.value);
+		return node.value;
 	}
 	
-	return parser.output(node.key, ': ', node.value);
+	return [node.key, ': ', node.value];
 };

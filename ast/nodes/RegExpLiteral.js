@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return '/' + node.pattern + '/' + node.flags;
+	return ['/', node.pattern, '/', node.flags];
 };

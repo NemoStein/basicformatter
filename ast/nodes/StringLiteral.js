@@ -1,4 +1,8 @@
 module.exports = parser => node =>
 {
-	return '\'' + node.value + '\'';
+	console.log(node);
+	
+	const quotes = parser.useSingleQuotes ? "'" : '"';
+	
+	return [quotes, node.value, quotes];
 };

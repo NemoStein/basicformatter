@@ -1,12 +1,11 @@
 module.exports = parser => node =>
 {
-	return parser.output
-	(
+	return [
 		'while (', node.test, ')', parser.newLine,
 		'{',
 			parser.indentedNewLine,
 			node.body,
 			parser.outdentedNewLine,
 		'}'
-	);
+	];
 };
