@@ -18,8 +18,9 @@ const Parser = class
 			spaceBetweenTagAndTemplateLiteral: false,
 			spaceBeforeComma: false,
 			spaceAfterComma: true,
-			
-			forceInlineArrays: false,
+			arrayStyle: 'keep', // 'inline' | 'expand' | 'keep' | int
+			objectStyle: 1, // 'inline' | 'expand' | 'keep' | int
+			useSingleQuotes: true,
 		},
 		options);
 		

@@ -11,15 +11,7 @@ module.exports = parser => node =>
 		output.push('(', parser.join(node.params, ', '), ')');
 	}
 	
-	output.push
-	(
-		'=>', parser.newLine,
-		'{',
-			parser.indentedNewLine,
-			node.body,
-			parser.outdentedNewLine,
-		'}'
-	);
+	output.push(' => ', node.body);
 	
 	return output;
 };

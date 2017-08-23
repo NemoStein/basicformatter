@@ -1,4 +1,4 @@
 module.exports = parser => node =>
 {
-	return [node.tag, parser.options.spaceBetweenTagAndTemplateLiteral && ' ', node.quasi];
+	return [node.tag, parser.spaceBetweenTagAndTemplateLiteral && ' ', node.quasi];
 };

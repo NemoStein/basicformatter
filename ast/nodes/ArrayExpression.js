@@ -2,29 +2,31 @@ module.exports = parser => node =>
 {
 	const spaceBefore = parser.spaceBeforeComma ? ' ' : '';
 	const spaceAfter = parser.spaceAfterComma ? ' ' : '';
-	const inline = parser.forceInlineArrays;
 	
-	return [
-		!inline && parser.newLine,
+	let inline = parser.arrayStyle === 'inline';
+	if (!inline)
+	{
+		const size = parseInt(parser.arrayStyle);
+		if (!isNaN(size) && node.elements.length <= size)
+		{
+			inline = true;
+		}
+		else if(parser.arrayStyle === 'keep' && node.loc.start.line === node.loc.end.line)
+		{
+			inline = true;
+		}
+	}
+	
+	if (inline)
+	{
+		return ['[', parser.join(node.elements, [spaceBefore, ',', spaceAfter]), ']'];
+	}
+	
+	return [parser.newLine,
 		'[',
-			!inline && parser.indentedNewLine,
-			() =>
-			{
-				if (parser.forceInlineArrays)
-				{
-					return parser.join(node.elements, [spaceBefore, ',', spaceAfter]);
-				}
-				
-				const parts = [];
-				for (const element of node.elements)
-				{
-					parts.push(element, spaceBefore, ',', parser.newLine);
-				}
-				parts.pop();
-				
-				return parts;
-			},
-			!inline && parser.outdentedNewLine,
+			parser.indentedNewLine,
+			parser.join(node.elements, [spaceBefore, ',', parser.newLine]), spaceBefore, ',',
+			parser.outdentedNewLine,
 		']'
 	];
 };
